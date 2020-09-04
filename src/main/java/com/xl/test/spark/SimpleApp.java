@@ -12,7 +12,11 @@ import java.util.List;
 public class SimpleApp {
     public static void main(String[] args) {
         String logFile = "/home/xl/test/data/win10.txt"; // Should be some file on your system
-        SparkSession spark = SparkSession.builder().appName("Simple Application").getOrCreate();
+//        SparkSession spark = SparkSession.builder().appName("Simple Application").getOrCreate();
+
+        SparkSession spark = SparkSession.builder() .appName("sparkAnalysis").master("spark://192.168.183.68:7077").config("spark.driver.memory","512m").getOrCreate();
+
+
 //        Dataset<String> logData = spark.read().textFile(logFile).cache();
         JavaRDD<String> fileData = spark.read().textFile(logFile).javaRDD();
         long numAs = fileData.filter(s -> s.contains("a")).count();
